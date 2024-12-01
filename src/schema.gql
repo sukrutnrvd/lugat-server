@@ -1,0 +1,100 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type OtpResponse {
+  success: Boolean!
+  expiresAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type UserAuthResponse {
+  success: Boolean!
+  token: String!
+}
+
+type Meaning {
+  id: ID!
+  meaning: String!
+  example: String
+  word: Word
+}
+
+type Word {
+  id: ID!
+  word: String!
+  tags: [String!]
+  meanings: [Meaning!]
+  dictionary: Dictionary!
+}
+
+type Dictionary {
+  id: ID!
+  name: String!
+  words: [Word!]
+}
+
+type UserResponse {
+  id: ID!
+  username: String!
+  email: String!
+}
+
+type Query {
+  me: UserResponse!
+  dictionaries: [Dictionary!]!
+  dictionary(id: String!): Dictionary
+  getWordsByDictionaryId(dictionaryId: String!): [Word!]!
+  getWordById(wordId: String!): Word!
+}
+
+type Mutation {
+  signup(user: CreateUserInput!): OtpResponse!
+  verifyOtp(email: String!, otp: String!): UserAuthResponse!
+  login(email: String!): OtpResponse!
+  createDictionary(dictionary: CreateDictionaryInput!): Dictionary!
+  updateDictionary(id: String!, dictionary: CreateDictionaryInput!): Dictionary!
+  deleteDictionary(id: String!): Dictionary!
+  createWord(word: CreateWordInput!): Word!
+  updateWord(word: UpdateWordInput!): Word!
+  deleteWord(wordId: String!): Word!
+  updateMeaning(meaning: UpdateMeaningInput!): Meaning!
+  deleteMeaning(id: String!): Meaning!
+}
+
+input CreateUserInput {
+  username: String!
+  email: String!
+}
+
+input CreateDictionaryInput {
+  name: String!
+}
+
+input CreateWordInput {
+  dictionaryId: String!
+  word: String!
+  tags: [String!]
+  meanings: [CreateMeaningInput!]
+}
+
+input CreateMeaningInput {
+  meaning: String!
+  example: String
+}
+
+input UpdateWordInput {
+  wordId: ID!
+  word: String!
+  tags: [String!]
+}
+
+input UpdateMeaningInput {
+  id: ID!
+  meaning: String!
+  example: String
+}
